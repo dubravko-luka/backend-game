@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  socket:
+    container_name: socket
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8083:8083
+    networks:
+      - common
+
+networks:
+  common:
