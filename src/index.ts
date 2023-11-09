@@ -1,18 +1,19 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const sever = require("http").createServer(app);
-const PORT = process.env.PORT || 3001;
+const express = require('express')
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+const app = express()
+const PORT = 4000
 
-app.get('/', function (req, res) {
-    res.json({ GitHub: "https://github.com/phuockaito/kaito-music.cf", Live_Demo: "https://kaito-music.vercel.app" });
+app.listen(PORT, () => {
+    console.log(`API listening on PORT ${PORT} `)
 })
 
+app.get('/', (req, res) => {
+    res.send('Hey this is my API running 🥳')
+})
 
-sever.listen(PORT, () => {
-    console.log(`server started on http://localhost:${PORT}`);
-});
+app.get('/about', (req, res) => {
+    res.send('This is my about route..... ')
+})
+
+// Export the Express API
+module.exports = app
