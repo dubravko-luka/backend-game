@@ -6,6 +6,7 @@ class Socket {
 
     private wss = new WebSocket.Server({ server });
     private rooms = new Map();
+    private roomsId = new Map();
 
     constructor() {
         this.start()
@@ -13,7 +14,8 @@ class Socket {
 
     public start() {
         const option = {
-            rooms: this.rooms
+            rooms: this.rooms,
+            roomsId: this.roomsId
         }
         SocketService.start(this.wss, option)
     }

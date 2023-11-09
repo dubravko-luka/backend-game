@@ -16,6 +16,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-ws": "^5.0.2",
+    "nanoid": "3.3.6",
     "network": "^0.6.1",
     "nodemon": "^2.0.6",
     "ts-node": "^10.8.1",

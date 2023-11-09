@@ -1,8 +1,10 @@
+import { PLAY_ENUM_SOCKET } from '../types/enum';
+import { jsonToWebsocket, stringFromWebsocket } from '../utils'
 import * as WebSocket from 'ws';
 
 namespace PlayService {
-    export const play = (ws: any, param: any) => {
-        const { rooms, room } = param
+    export const play = async (ws: any, param: any) => {
+        const { rooms, room, roomsId, user } = param
         if (!room || !isRoomValid(room)) {
             ws.close();
             return;
@@ -10,34 +12,47 @@ namespace PlayService {
 
         if (!rooms.has(room)) {
             rooms.set(room, new Set());
+            roomsId.set(room, new Set());
         }
 
-        if (rooms.get(room).size < 2) {
+        const listRoomId: any = Array.from(roomsId.get(room));
+        if (listRoomId.length === 0 || !listRoomId.includes(user)) {
             rooms.get(room).add(ws);
+            roomsId.get(room).add(user);
         }
 
         ws.on('message', message => {
-            console.log('------->', rooms.get(room).size, JSON.parse(message.toString()).turn);
-            if (rooms.get(room).size === 2 && JSON.parse(message.toString()).turn === 'check-turn') {
-                const players: any = Array.from(rooms.get(room));
-                players[players.length - 1].send('Enemy turn');
-                rooms.get(room).forEach(client => {
-                    if (client !== players[players.length - 1] && client.readyState === WebSocket.OPEN) {
-                        client.send(`Your turn`);
-                    }
-                });
-            } else if (rooms.get(room).size === 2 && JSON.parse(message.toString()).turn === 'reverse-turn') {
-                broadcastMessage(message, ws, rooms, room);
+            const _message = stringFromWebsocket(message)
+            const listRoomId: any = Array.from(roomsId.get(room));
+            if (_message.type === PLAY_ENUM_SOCKET.JOIN && listRoomId.length === 1 && listRoomId[0] === user) {
+                ws.close();
+                rooms.set(room, new Set());
+                roomsId.set(room, new Set());
             } else {
-                broadcastMessage(message, ws, rooms, room);
+                if (_message.type === PLAY_ENUM_SOCKET.JOIN) {
+                    const messageToJoin = jsonToWebsocket({
+                        ..._message,
+                        action: PLAY_ENUM_SOCKET.JOIN // Send to joiner room
+                    })
+                    const messageToCreate = jsonToWebsocket({
+                        ..._message,
+                        action: PLAY_ENUM_SOCKET.CREATE // Send to creator room
+                    })
+                    ws.send(`${messageToJoin}`)
+                    broadcastMessage(messageToCreate, ws, rooms, room);
+                } else {
+                    broadcastMessage(message, ws, rooms, room);
+                }
             }
         });
 
         ws.on('close', () => {
-            if (rooms.has(room)) {
-                const roomSet = rooms.get(room);
-                roomSet.delete(ws);
-                rooms.set(room, roomSet);
+            if (roomsId.get(room).size > 0) {
+                const message = jsonToWebsocket({ type: PLAY_ENUM_SOCKET.CLOSE })
+                broadcastMessage(message, ws, rooms, room);
+
+                rooms.set(room, new Set());
+                roomsId.set(room, new Set());
             }
         });
     }

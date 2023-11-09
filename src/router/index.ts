@@ -7,7 +7,8 @@ namespace Router {
         switch (path) {
             case 'play':
                 const room = urlParams.get('room');
-                PlayService.play(ws, { ...param, room });
+                const user = urlParams.get('user');
+                PlayService.play(ws, { ...param, room, user });
                 break;
             default: break;
         }

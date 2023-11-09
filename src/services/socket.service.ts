@@ -16,7 +16,7 @@ namespace SocketService {
       }
 
       const urlParams = new URLSearchParams(req?.url?.slice(2));
-      Router.router(ws, param, urlParams)
+      Router.router(ws, { ...param, origin }, urlParams)
     });
   }
 
