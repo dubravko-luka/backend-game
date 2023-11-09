@@ -6,6 +6,6 @@
 	"watch": [
 		"src"
 	],
-	"exec": "ts-node src/index.ts",
+	"exec": "ts-node src/socket.ts",
 	"ext": "ts"
 }
