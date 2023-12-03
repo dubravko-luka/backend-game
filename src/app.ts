@@ -20,7 +20,7 @@ class App {
         origin: [
           'http://localhost:3000',
           'http://localhost:3001',
-          'https://supernova-api.demo-website.click'
+          'https://supernova.demo-website.click'
         ]
       }));
     } else {
@@ -28,7 +28,7 @@ class App {
         origin: [
           'http://localhost:3000',
           'http://localhost:3001',
-          'https://supernova-api.demo-website.click'
+          'https://supernova.demo-website.click'
         ]
       }));
     }
