@@ -17,11 +17,19 @@ class App {
     this.app.use(express.urlencoded({ extended: false }));
     if (process.env.NODE_ENV !== "production") {
       this.app.use(cors({
-        origin: []
+        origin: [
+          'http://localhost:3000',
+          'http://localhost:3001',
+          'https://supernova-api.demo-website.click'
+        ]
       }));
     } else {
       this.app.use(cors({
-        origin: []
+        origin: [
+          'http://localhost:3000',
+          'http://localhost:3001',
+          'https://supernova-api.demo-website.click'
+        ]
       }));
     }
     this.app.use(express.static("src"));
