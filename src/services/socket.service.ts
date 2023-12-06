@@ -4,7 +4,6 @@ import * as Router from '../router'
 
 namespace SocketService {
   export const start = (wss, param: any) => {
-
     wss.on('connection', (ws: WebSocket, req: http.IncomingMessage) => {
       const origin: string = req.headers.origin as string;
 

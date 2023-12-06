@@ -24,12 +24,12 @@ namespace PlayService {
         ws.on('message', message => {
             const _message = stringFromWebsocket(message)
             const listRoomId: any = Array.from(roomsId.get(room));
-            if (_message.type === PLAY_ENUM_SOCKET.JOIN && listRoomId.length === 1 && listRoomId[0] === user) {
+            if (_message?.type === PLAY_ENUM_SOCKET.JOIN && listRoomId.length === 1 && listRoomId[0] === user) {
                 ws.close();
                 rooms.set(room, new Set());
                 roomsId.set(room, new Set());
             } else {
-                if (_message.type === PLAY_ENUM_SOCKET.JOIN) {
+                if (_message?.type === PLAY_ENUM_SOCKET.JOIN) {
                     const messageToJoin = jsonToWebsocket({
                         ..._message,
                         action: PLAY_ENUM_SOCKET.JOIN // Send to joiner room
