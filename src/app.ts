@@ -18,17 +18,19 @@ class App {
     if (process.env.NODE_ENV !== "production") {
       this.app.use(cors({
         origin: [
-          'http://localhost:3000',
-          'http://localhost:3001',
-          'https://supernova.demo-website.click'
+          // 'http://localhost:3000',
+          // 'http://localhost:3001',
+          // 'https://supernova.demo-website.click',
+          "*"
         ]
       }));
     } else {
       this.app.use(cors({
         origin: [
-          'http://localhost:3000',
-          'http://localhost:3001',
-          'https://supernova.demo-website.click'
+          // 'http://localhost:3000',
+          // 'http://localhost:3001',
+          // 'https://supernova.demo-website.click',
+          "*"
         ]
       }));
     }
