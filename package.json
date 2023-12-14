@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "build": "tsc",
+    "build": "tsc && yarn copy-ssl ",
+    "copy-ssl": "cp -a src/ssl/. build/ssl/",
     "start": "node build/socket.js",
     "vercel": "node src/index.ts"
   },

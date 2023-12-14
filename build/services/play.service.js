@@ -22,13 +22,13 @@ var PlayService;
         ws.on('message', message => {
             const _message = (0, utils_1.stringFromWebsocket)(message);
             const listRoomId = Array.from(roomsId.get(room));
-            if (_message.type === enum_1.PLAY_ENUM_SOCKET.JOIN && listRoomId.length === 1 && listRoomId[0] === user) {
+            if (_message?.type === enum_1.PLAY_ENUM_SOCKET.JOIN && listRoomId.length === 1 && listRoomId[0] === user) {
                 ws.close();
                 rooms.set(room, new Set());
                 roomsId.set(room, new Set());
             }
             else {
-                if (_message.type === enum_1.PLAY_ENUM_SOCKET.JOIN) {
+                if (_message?.type === enum_1.PLAY_ENUM_SOCKET.JOIN) {
                     const messageToJoin = (0, utils_1.jsonToWebsocket)({
                         ..._message,
                         action: enum_1.PLAY_ENUM_SOCKET.JOIN // Send to joiner room
